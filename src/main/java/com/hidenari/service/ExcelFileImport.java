@@ -1,5 +1,6 @@
 package com.hidenari.service;
 
+import com.hidenari.model.Plan;
 import com.hidenari.model.Project;
 import org.apache.poi.ss.usermodel.*;
 
@@ -28,7 +29,6 @@ public class ExcelFileImport {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     Cell cell = row.getCell(j);
                     String cellValue = "";
-                    String inputArray = "";
                     switch (cell.getCellType()) {
                         case STRING -> cellValue = cell.getStringCellValue();
                         case NUMERIC -> cellValue = String.valueOf(cell.getNumericCellValue());
@@ -39,7 +39,10 @@ public class ExcelFileImport {
                         case 0 -> project.name = cellValue;
                         case 1 -> project.number = cellValue;
                         case 2 -> project.system = cellValue;
-                        case 3 -> project.estimate = Double.valueOf(cellValue);
+                        case 3 -> {
+                            cellValue = String.valueOf(Double.parseDouble(cellValue) * 140);
+                            project.estimate = Double.valueOf(cellValue);
+                        }
                     }
                 }
 
@@ -55,6 +58,44 @@ public class ExcelFileImport {
     }
 
     public static void importExcelPlan() {
-        System.out.println("plan");
+        List<Plan> plansLists = new ArrayList<>();
+
+        try (
+                InputStream inputStream = new FileInputStream(".excel/plans.xlsx")
+        ) {
+            Workbook workBook = WorkbookFactory.create(inputStream);
+            Sheet sheetBook = workBook.getSheetAt(0);
+            int rowCount = sheetBook.getLastRowNum();
+
+            for (int i = 0; i <= rowCount; i++) {
+                Row row = sheetBook.getRow(i);
+
+                Plan plan = new Plan();
+
+                for (int j = 0; j < row.getLastCellNum(); j++) {
+                    Cell cell = row.getCell(j);
+                    String cellValue = "";
+                    switch (cell.getCellType()) {
+                        case STRING -> cellValue = cell.getStringCellValue();
+                        case NUMERIC -> cellValue = String.valueOf(cell.getNumericCellValue());
+                        case null, default -> {
+                        }
+                    }
+                    switch (j) {
+                        case 0 -> plan.name = cellValue;
+                        case 1 -> plan.number = cellValue;
+                        case 2 -> plan.system = cellValue;
+                        case 3 -> plan.planedValue = Double.parseDouble(cellValue);
+                    }
+                }
+
+                plansLists.add(plan);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        for (Plan outStr : plansLists) {
+            System.out.println(outStr.toString());
+        }
     }
 }
