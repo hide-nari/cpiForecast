@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ExcelFileImport {
 
-    public static void importExcelProject() {
+    public static List<Project> importExcelProject() {
         List<Project> projectsLists = new ArrayList<>();
 
         try (
@@ -52,12 +52,10 @@ public class ExcelFileImport {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        for (Project outStr : projectsLists) {
-            System.out.println(outStr.toString());
-        }
+        return projectsLists;
     }
 
-    public static void importExcelPlan() {
+    public static List<Plan> importExcelPlan() {
         List<Plan> plansLists = new ArrayList<>();
 
         try (
@@ -94,8 +92,6 @@ public class ExcelFileImport {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        for (Plan outStr : plansLists) {
-            System.out.println(outStr.toString());
-        }
+        return plansLists;
     }
 }
