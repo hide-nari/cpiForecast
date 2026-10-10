@@ -16,8 +16,9 @@ public class MatchLogic {
                         project.workPlanedValue = p.planedValue;
                         project.workMatchType = "number match";
                     });
-            if (project.workMatchType == null) {
+            if (project.workMatchType.equals("no match")) {
                 plansLists.stream()
+                        .filter(p -> p.system.equals(project.system))
                         .filter(p -> p.name.equals(project.name))
                         .forEach(p -> {
                             project.workPlanedValue = p.planedValue;

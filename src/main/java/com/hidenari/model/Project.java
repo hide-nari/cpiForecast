@@ -6,7 +6,7 @@ public class Project {
     public String name;
     public Double estimate;
     public Double workPlanedValue;
-    public String workMatchType;
+    public String workMatchType = "no match";
 
     @Override
     public String toString() {
