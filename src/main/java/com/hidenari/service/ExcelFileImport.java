@@ -62,7 +62,7 @@ public class ExcelFileImport {
                 InputStream inputStream = new FileInputStream(".excel/plans.xlsx")
         ) {
             Workbook workBook = WorkbookFactory.create(inputStream);
-            Sheet sheetBook = workBook.getSheetAt(0);
+            Sheet sheetBook = workBook.getSheet("9月");
             int rowCount = sheetBook.getLastRowNum();
 
             for (int i = 0; i <= rowCount; i++) {
@@ -70,24 +70,32 @@ public class ExcelFileImport {
 
                 Plan plan = new Plan();
 
-                for (int j = 0; j < row.getLastCellNum(); j++) {
-                    Cell cell = row.getCell(j);
-                    String cellValue = "";
-                    switch (cell.getCellType()) {
-                        case STRING -> cellValue = cell.getStringCellValue();
-                        case NUMERIC -> cellValue = String.valueOf(cell.getNumericCellValue());
-                        case null, default -> {
+                if (row != null) {
+
+                    for (int j = 0; j < row.getLastCellNum(); j++) {
+                        Cell cell = row.getCell(j);
+                        String cellValue = "";
+                        if (cell != null) {
+                            switch (cell.getCellType()) {
+                                case STRING -> cellValue = cell.getStringCellValue();
+                                case NUMERIC -> cellValue = String.valueOf(cell.getNumericCellValue());
+                                case FORMULA -> cellValue = String.valueOf(cell.getNumericCellValue());
+                                case null, default -> {
+                                }
+                            }
+                        }
+                        switch (j) {
+                            case 1 -> plan.number = cellValue;
+                            case 3 -> plan.name = cellValue;
+                            case 4 -> plan.system = cellValue;
+                            case 25 -> plan.planedValue = Double.parseDouble(cellValue);
                         }
                     }
-                    switch (j) {
-                        case 0 -> plan.name = cellValue;
-                        case 1 -> plan.number = cellValue;
-                        case 2 -> plan.system = cellValue;
-                        case 3 -> plan.planedValue = Double.parseDouble(cellValue);
+
+                    if (plan.planedValue != null) {
+                        plansLists.add(plan);
                     }
                 }
-
-                plansLists.add(plan);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

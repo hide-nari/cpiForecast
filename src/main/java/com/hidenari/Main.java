@@ -12,6 +12,11 @@ public class Main {
     public static void main(String[] args) {
         List<Project> projectsLists = ExcelFileImport.importExcelProject();
         List<Plan> plansLists = ExcelFileImport.importExcelPlan();
+
+        for (Plan plan : plansLists) {
+            System.out.println(plan);
+        }
+
         MatchLogic.matchProjectPlan(projectsLists, plansLists);
 
         projectsLists.sort(Comparator.comparing((Project p) -> p.estimate / p.workPlanedValue).reversed());
