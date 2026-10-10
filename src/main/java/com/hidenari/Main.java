@@ -1,9 +1,12 @@
 package com.hidenari;
 
+import com.hidenari.service.ExcelFileImport;
+import com.hidenari.service.MatchLogic;
+
 public class Main {
     public static void main(String[] args) {
-        for (int i = 1; i <= 15; i++) {
-            System.out.println("i = " + i);
-        }
+        ExcelFileImport.importExcelProject();
+        ExcelFileImport.importExcelPlan();
+        MatchLogic.matchProjectPlan();
     }
 }
