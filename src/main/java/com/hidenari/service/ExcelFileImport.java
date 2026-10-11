@@ -18,7 +18,7 @@ public class ExcelFileImport {
                 InputStream inputStream = new FileInputStream(".excel/projects.xlsx")
         ) {
             Workbook workBook = WorkbookFactory.create(inputStream);
-            Sheet sheetBook = workBook.getSheetAt(0);
+            Sheet sheetBook = workBook.getSheet("TMS_Request List");
             int rowCount = sheetBook.getLastRowNum();
 
             for (int i = 0; i <= rowCount; i++) {
@@ -26,28 +26,30 @@ public class ExcelFileImport {
 
                 Project project = new Project();
 
-                for (int j = 0; j < row.getLastCellNum(); j++) {
-                    Cell cell = row.getCell(j);
-                    String cellValue = "";
-                    switch (cell.getCellType()) {
-                        case STRING -> cellValue = cell.getStringCellValue();
-                        case NUMERIC -> cellValue = String.valueOf(cell.getNumericCellValue());
-                        case null, default -> {
+                if (row != null) {
+                    for (int j = 0; j < row.getLastCellNum(); j++) {
+                        Cell cell = row.getCell(j);
+                        String cellValue = "";
+                        if (cell != null) {
+                            switch (cell.getCellType()) {
+                                case STRING -> cellValue = cell.getStringCellValue();
+                                case NUMERIC -> cellValue = String.valueOf(cell.getNumericCellValue());
+                                case null, default -> {
+                                }
+                            }
+                        }
+                        switch (j) {
+                            case 7 -> project.number = cellValue;
+                            case 11 -> project.name = cellValue;
+                            case 15 -> project.system = cellValue;
+                            case 106 -> {
+                                cellValue = String.valueOf(Double.parseDouble(cellValue) * 140);
+                                project.estimate = Double.valueOf(cellValue);
+                            }
                         }
                     }
-                    switch (j) {
-                        case 0 -> project.name = cellValue;
-                        case 1 -> project.number = cellValue;
-                        case 2 -> project.system = cellValue;
-                        case 3 -> {
-                            cellValue = String.valueOf(Double.parseDouble(cellValue) * 140);
-                            project.estimate = Double.valueOf(cellValue);
-                        }
-                    }
+                    projectsLists.add(project);
                 }
-
-                projectsLists.add(project);
-
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

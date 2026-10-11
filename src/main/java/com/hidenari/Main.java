@@ -11,6 +11,11 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         List<Project> projectsLists = ExcelFileImport.importExcelProject();
+
+        for (Project project : projectsLists) {
+            System.out.println(project);
+        }
+
         List<Plan> plansLists = ExcelFileImport.importExcelPlan();
 
         for (Plan plan : plansLists) {
