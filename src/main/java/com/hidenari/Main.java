@@ -12,15 +12,18 @@ public class Main {
     public static void main(String[] args) {
         List<Project> projectsLists = ExcelFileImport.importExcelProject();
 
+        System.out.println("--------------------");
         for (Project project : projectsLists) {
             System.out.println(project);
         }
 
         List<Plan> plansLists = ExcelFileImport.importExcelPlan();
 
+        System.out.println("--------------------");
         for (Plan plan : plansLists) {
             System.out.println(plan);
         }
+        System.out.println("--------------------");
 
         MatchLogic.matchProjectPlan(projectsLists, plansLists);
 

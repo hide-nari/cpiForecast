@@ -21,7 +21,7 @@ public class ExcelFileImport {
             Sheet sheetBook = workBook.getSheet("TMS_Request List");
             int rowCount = sheetBook.getLastRowNum();
 
-            for (int i = 0; i <= rowCount; i++) {
+            for (int i = 4; i <= rowCount; i++) {
                 Row row = sheetBook.getRow(i);
 
                 Project project = new Project();
@@ -43,7 +43,7 @@ public class ExcelFileImport {
                                 case 11 -> project.name = cellValue;
                                 case 15 -> project.system = cellValue;
                                 case 106 -> {
-                                    cellValue = String.valueOf(Double.parseDouble(cellValue) * 140);
+                                    cellValue = String.valueOf(Double.parseDouble(cellValue));
                                     project.estimate = Double.valueOf(cellValue);
                                 }
                             }
@@ -70,7 +70,7 @@ public class ExcelFileImport {
             Sheet sheetBook = workBook.getSheet("9月");
             int rowCount = sheetBook.getLastRowNum();
 
-            for (int i = 0; i <= rowCount; i++) {
+            for (int i = 4; i <= rowCount; i++) {
                 Row row = sheetBook.getRow(i);
 
                 Plan plan = new Plan();
@@ -84,7 +84,11 @@ public class ExcelFileImport {
                             switch (cell.getCellType()) {
                                 case STRING -> cellValue = cell.getStringCellValue();
                                 case NUMERIC -> cellValue = String.valueOf(cell.getNumericCellValue());
-                                case FORMULA -> cellValue = String.valueOf(cell.getNumericCellValue());
+                                case FORMULA -> {
+                                    if (j == 25) {
+                                        cellValue = String.valueOf(cell.getNumericCellValue());
+                                    }
+                                }
                                 case null, default -> {
                                     continue;
                                 }
