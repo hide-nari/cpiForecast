@@ -34,7 +34,9 @@ public class ExcelFileImport {
                             switch (cell.getCellType()) {
                                 case STRING -> cellValue = cell.getStringCellValue();
                                 case NUMERIC -> cellValue = String.valueOf(cell.getNumericCellValue());
+                                case FORMULA -> cellValue = String.valueOf(cell.getNumericCellValue());
                                 case null, default -> {
+                                    continue;
                                 }
                             }
                             switch (j) {
@@ -85,6 +87,7 @@ public class ExcelFileImport {
                                 case NUMERIC -> cellValue = String.valueOf(cell.getNumericCellValue());
                                 case FORMULA -> cellValue = String.valueOf(cell.getNumericCellValue());
                                 case null, default -> {
+                                    continue;
                                 }
                             }
                             switch (j) {
