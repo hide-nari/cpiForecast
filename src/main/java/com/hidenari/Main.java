@@ -12,28 +12,28 @@ public class Main {
     public static void main(String[] args) {
         List<Project> projectsLists = ExcelFileImport.importExcelProject();
 
-        System.out.println("--------------------");
+        System.out.println("---ProjectList---");
         for (Project project : projectsLists) {
             System.out.println(project);
         }
 
         List<Plan> plansLists = ExcelFileImport.importExcelPlan();
 
-        System.out.println("--------------------");
+        System.out.println("---PlanList---");
         for (Plan plan : plansLists) {
             System.out.println(plan);
         }
-        System.out.println("--------------------");
+        System.out.println("---Result---");
 
         MatchLogic.matchProjectPlan(projectsLists, plansLists);
 
-        projectsLists.sort(Comparator.comparing((Project p) -> p.estimate / p.workPlanedValue).reversed());
+        projectsLists.sort(Comparator.comparing((Project p) -> p.getEstimate() / p.getWorkPlanedValue()).reversed());
 
         for (Project project : projectsLists) {
             System.out.println(
-                    "★★★" + project.estimate / project.workPlanedValue + "★★★:" +
-                            project.name + ":" + project.system + ":[Estimate:" + project.estimate + "]:{Plan:" +
-                            project.workPlanedValue + "}:" + project.workMatchType);
+                    "★★★" + project.getEstimate() / project.getWorkPlanedValue() + "★★★:" +
+                            project.getName() + ":" + project.getSystem() + ":[Estimate:" + project.getEstimate() + "]:{Plan:" +
+                            project.getWorkPlanedValue() + "}:" + project.getWorkMatchType());
         }
 
     }

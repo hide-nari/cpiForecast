@@ -1,23 +1,12 @@
 package com.hidenari.model;
 
-public class Project {
-    public String number;
-    public String system;
-    public String name;
-    public Double estimate;
-    public Double workPlanedValue;
-    public String workMatchType = "no match";
+import lombok.Data;
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Project{");
-        sb.append("number='").append(number).append('\'');
-        sb.append(", system='").append(system).append('\'');
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", estimate=").append(estimate);
-        sb.append(", workPlanedValue=").append(workPlanedValue);
-        sb.append(", workMatchType='").append(workMatchType).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
+public @Data class Project {
+    private String number;
+    private String system;
+    private String name;
+    private Double estimate;
+    private Double workPlanedValue;
+    private String workMatchType = "no match";
 }

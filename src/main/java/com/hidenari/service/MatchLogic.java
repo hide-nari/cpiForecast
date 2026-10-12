@@ -8,21 +8,21 @@ import java.util.List;
 public class MatchLogic {
     public static void matchProjectPlan(List<Project> projectsLists, List<Plan> plansLists) {
         for (Project project : projectsLists) {
-            project.workPlanedValue = 0.0;
+            project.setWorkPlanedValue(0.0);
             plansLists.stream()
-                    .filter(p -> p.system.equals(project.system))
-                    .filter(p -> p.number.equals(project.number))
+                    .filter(p -> p.getSystem().equals(project.getSystem()))
+                    .filter(p -> p.getNumber().equals(project.getNumber()))
                     .forEach(p -> {
-                        project.workPlanedValue = p.planedValue;
-                        project.workMatchType = "number match";
+                        project.setWorkPlanedValue(p.getPlanedValue());
+                        project.setWorkMatchType("number match");
                     });
-            if (project.workMatchType.equals("no match")) {
+            if (project.getWorkMatchType().equals("no match")) {
                 plansLists.stream()
-                        .filter(p -> p.system.equals(project.system))
-                        .filter(p -> p.name.equals(project.name))
+                        .filter(p -> p.getSystem().equals(project.getSystem()))
+                        .filter(p -> p.getName().equals(project.getName()))
                         .forEach(p -> {
-                            project.workPlanedValue = p.planedValue;
-                            project.workMatchType = "name match";
+                            project.setWorkPlanedValue(p.getPlanedValue());
+                            project.setWorkMatchType("name match");
                         });
             }
         }
