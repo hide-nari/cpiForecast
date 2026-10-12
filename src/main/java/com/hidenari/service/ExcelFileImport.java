@@ -93,16 +93,18 @@ public class ExcelFileImport {
                                     continue;
                                 }
                             }
-                            switch (j) {
-                                case 1 -> plan.setNumber(cellValue);
-                                case 3 -> plan.setName(cellValue);
-                                case 4 -> plan.setSystem(cellValue);
-                                case 25 -> plan.setPlanedValue(Double.parseDouble(cellValue));
+                            if (!cellValue.isEmpty()) {
+                                switch (j) {
+                                    case 1 -> plan.setNumber(cellValue);
+                                    case 3 -> plan.setName(cellValue);
+                                    case 4 -> plan.setSystem(cellValue);
+                                    case 25 -> plan.setPlanedValue(Double.parseDouble(cellValue));
+                                }
                             }
                         }
                     }
 
-                    if (plan.getPlanedValue() != null) {
+                    if (plan.getPlanedValue() != null && plan.getNumber() != null && plan.getName() != null) {
                         plansLists.add(plan);
                     }
                 }
