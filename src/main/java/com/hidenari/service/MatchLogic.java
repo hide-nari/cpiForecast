@@ -10,18 +10,18 @@ public class MatchLogic {
         for (Project project : projectsLists) {
             project.setWorkPlanedValue(0.0);
             plansLists.stream()
-                    .filter(p -> p.getSystem().equals(project.getSystem()))
-                    .filter(p -> p.getNumber().equals(project.getNumber()))
-                    .forEach(p -> {
-                        project.setWorkPlanedValue(p.getPlanedValue());
+                    .filter(plan -> plan.getSystem().equals(project.getSystem()))
+                    .filter(plan -> plan.getNumber().equals(project.getNumber()))
+                    .forEach(plan -> {
+                        project.setWorkPlanedValue(plan.getPlanedValue());
                         project.setWorkMatchType("number match");
                     });
             if (project.getWorkMatchType().equals("no match")) {
                 plansLists.stream()
-                        .filter(p -> p.getSystem().equals(project.getSystem()))
-                        .filter(p -> p.getName().equals(project.getName()))
-                        .forEach(p -> {
-                            project.setWorkPlanedValue(p.getPlanedValue());
+                        .filter(plan -> plan.getSystem().equals(project.getSystem()))
+                        .filter(plan -> plan.getName().equals(project.getName()))
+                        .forEach(plan -> {
+                            project.setWorkPlanedValue(plan.getPlanedValue());
                             project.setWorkMatchType("name match");
                         });
             }
